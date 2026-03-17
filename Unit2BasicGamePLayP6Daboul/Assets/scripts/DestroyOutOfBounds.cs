@@ -5,6 +5,7 @@ public class DestroyOutOfBounds : MonoBehaviour
     private float topBound = 30;
     private float lowerBound = -10;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +23,15 @@ public class DestroyOutOfBounds : MonoBehaviour
         else if (transform.position.z < lowerBound)
         {
             Debug.Log("Game Over!");
+            Destroy(gameObject);
+        }
+        // If an animal goes past the player (lower boundary)
+        if (transform.position.z < lowerBound)
+        {
+            // 1. Subtract a life via the GameManager
+            GameObject.Find("Game Manager").GetComponent<GameManager>().SubtractLives(1);
+
+            // 2. Destroy the animal object
             Destroy(gameObject);
         }
 

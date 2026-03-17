@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3479721717239894786}
   - component: {fileID: 3921578143550692839}
   - component: {fileID: 5256385144120850246}
+  - component: {fileID: 4571451342002626940}
   m_Layer: 0
   m_Name: Food_Organic_Apple_01
   m_TagString: Untagged
@@ -135,3 +136,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.32699966, y: 0.32699984, z: 0.32700062}
   m_Center: {x: -0.0000019073486, y: 0.16349992, z: 0}
+--- !u!114 &4571451342002626940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6504774931822044505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9056e94c943e39640877857609458ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
