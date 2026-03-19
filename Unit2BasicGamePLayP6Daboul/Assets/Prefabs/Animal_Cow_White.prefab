@@ -700,7 +700,7 @@ GameObject:
   - component: {fileID: -6809053895277623376}
   m_Layer: 0
   m_Name: Animal_Cow_White
-  m_TagString: EditorOnly
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

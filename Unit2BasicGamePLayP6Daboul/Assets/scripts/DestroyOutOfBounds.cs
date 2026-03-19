@@ -29,11 +29,11 @@ public class DestroyOutOfBounds : MonoBehaviour
         if (transform.position.z < lowerBound)
         {
             // 1. Subtract a life via the GameManager
-            GameObject.Find("Game Manager").GetComponent<GameManager>().SubtractLives(1);
+            GameObject.Find("GameManager").GetComponent<GameManager>().SubtractLives(1);
 
             // 2. Destroy the animal object
             Destroy(gameObject);
         }
-
+        
     }
 }
