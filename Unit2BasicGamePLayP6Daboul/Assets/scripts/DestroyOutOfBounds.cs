@@ -2,38 +2,34 @@ using UnityEngine;
 
 public class DestroyOutOfBounds : MonoBehaviour
 {
-    private float topBound = 30;
-    private float lowerBound = -10;
+    [Header("Thresholds")]
+    private float lowerLimit = -5.0f; // For Balls
+    private float leftLimit = -35.0f; // For Dogs
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        // If an object goes past the players view in the game, remove that object
-        if (transform.position.z > topBound)
+        // LOGIC FOR BALLS (Checking Y axis)
+        if (transform.position.y < lowerLimit)
         {
+            Debug.Log("Game Over! A ball hit the ground.");
             Destroy(gameObject);
         }
-        else if (transform.position.z < lowerBound)
-        {
-            Debug.Log("Game Over!");
-            Destroy(gameObject);
-        }
-        // If an animal goes past the player (lower boundary)
-        if (transform.position.z < lowerBound)
-        {
-            // 1. Subtract a life via the GameManager
-            GameObject.Find("GameManager").GetComponent<GameManager>().SubtractLives(1);
 
-            // 2. Destroy the animal object
+        // LOGIC FOR DOGS (Checking X axis)
+        if (transform.position.x < leftLimit)
+        {
             Destroy(gameObject);
         }
-        
+    }
+
+    // Trigger logic for when a Dog and Ball overlap
+    private void OnTriggerEnter(Collider other)
+    {
+        // If this object is a Ball and it hits a Dog...
+        if (gameObject.CompareTag("Ball") && other.CompareTag("Dog"))
+        {
+            Destroy(gameObject); // Destroy the ball
+            // Destroy(other.gameObject); // Optional: Uncomment to destroy dog too
+        }
     }
 }

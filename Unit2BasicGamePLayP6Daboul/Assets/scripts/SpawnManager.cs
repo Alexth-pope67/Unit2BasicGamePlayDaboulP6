@@ -2,50 +2,39 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject[] animalPrefabs;
-    private float spawnRangeX = 20;
-    private float spawnPosZ = 20;
-    private float startDelay = 2;
-    private float spawnInterval = 1.5f;
-    // Side spawn boundaries
-    public float sideSpawnX = 25;
-    public float sideSpawnMinZ = 5;
-    public float sideSpawnMaxZ = 15;
+    [Header("Prefab Array")]
+    public GameObject[] ballPrefabs; // Ensure you drag all 3 ball prefabs here
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Spawn Boundaries")]
+    private float spawnLimitXLeft = -22.0f;
+    private float spawnLimitXRight = 7.0f;
+    private float spawnPosY = 30.0f;
+
+    [Header("Timing Settings")]
+    private float startDelay = 1.0f;
+
     void Start()
     {
-        InvokeRepeating("SpawnRandomAnimal", startDelay, spawnInterval);
-        // Replace InvokeRepeating with new calls or add them
-        InvokeRepeating("SpawnLeftAnimal", 2.0f, 1.5f);
-        InvokeRepeating("SpawnRightAnimal", 2.0f, 1.5f);
+        // Start the first spawn after a brief delay
+        Invoke("SpawnRandomBall", startDelay);
     }
 
-
-    // Update is called once per frame
-    void Update()
+    void SpawnRandomBall()
     {
-        
-    }
+        // 1. Calculate a random X position within the boundaries
+        Vector3 spawnPos = new Vector3(Random.Range(spawnLimitXLeft, spawnLimitXRight), spawnPosY, 0);
 
-    void SpawnRandomAnimal()
-    {
-        // Randomly generate animal index and spawn position
-        Vector3 spawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX),
-        0, spawnPosZ);
-        int animalIndex = Random.Range(0, animalPrefabs.Length);
-        Instantiate(animalPrefabs[animalIndex], spawnPos,
-        animalPrefabs[animalIndex].transform.rotation);
-    }
+        // 2. Select a random ball index from the array
+        int ballIndex = Random.Range(0, ballPrefabs.Length);
 
-    void SpawnLeftAnimal()
-    {
-        int animalIndex = Random.Range(0, animalPrefabs.Length);
-        // Position at the left edge, random Y height
-        Vector3 spawnPos = new Vector3(-sideSpawnX, 0, Random.Range(sideSpawnMinZ, sideSpawnMaxZ));
-        // Rotate the animal to face right
-        Vector3 rotation = new Vector3(0, 90, 0);
-        Instantiate(animalPrefabs[animalIndex], spawnPos, Quaternion.Euler(rotation));
-    }
+        // 3. Instantiate the selected ball at the random position
+        Instantiate(ballPrefabs[ballIndex], spawnPos, ballPrefabs[ballIndex].transform.rotation);
 
+        // 4. Determine the next random spawn interval (Bonus Task)
+        float nextSpawnInterval = Random.Range(3.0f, 5.0f);
+
+        // 5. Recursively call this function to keep the cycle going
+        Invoke("SpawnRandomBall", nextSpawnInterval);
+    }
 }
+

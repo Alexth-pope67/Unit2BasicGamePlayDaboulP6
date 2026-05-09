@@ -1,37 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnManagerX : MonoBehaviour
 {
-    public GameObject[] ballPrefabs;
+    [Header("Prefab Array")]
+    public GameObject[] ballPrefabs; // Ensure you drag all 3 ball prefabs here
 
-    private float spawnLimitXLeft = -22;
-    private float spawnLimitXRight = 7;
-    private float spawnPosY = 0;
+    [Header("Spawn Boundaries")]
+    private float spawnLimitXLeft = -22.0f;
+    private float spawnLimitXRight = 7.0f;
+    private float spawnPosY = 30.0f;
 
+    [Header("Timing Settings")]
     private float startDelay = 1.0f;
-    private float spawnInterval = 4.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnRandomBall", startDelay, spawnInterval);
+        // Start the first spawn after a brief delay
+        Invoke("SpawnRandomBall", startDelay);
     }
 
-    // Spawn random ball at random x position at top of play area
     void SpawnRandomBall()
     {
-        // 1. Pick a random ball from the array (fixes Task 7)
+        // 1. Calculate a random X position within the boundaries
+        Vector3 spawnPos = new Vector3(Random.Range(spawnLimitXLeft, spawnLimitXRight), spawnPosY, 0);
+
+        // 2. Select a random ball index from the array
         int ballIndex = Random.Range(0, ballPrefabs.Length);
 
-        // 2. DEFINE spawnPos (This fixes your error!)
-        // It creates a random X position and uses the fixed Y height
-        Vector3 spawnPos = new Vector3(Random.Range(spawnLimitXLeft, spawnLimitXRight), 30, 0);
-
-        // 3. Spawn the ball at that position
+        // 3. Instantiate the selected ball at the random position
         Instantiate(ballPrefabs[ballIndex], spawnPos, ballPrefabs[ballIndex].transform.rotation);
+
+        // 4. Determine the next random spawn interval (Bonus Task)
+        float nextSpawnInterval = Random.Range(3.0f, 5.0f);
+
+        // 5. Recursively call this function to keep the cycle going
+        Invoke("SpawnRandomBall", nextSpawnInterval);
     }
-
-
 }
+

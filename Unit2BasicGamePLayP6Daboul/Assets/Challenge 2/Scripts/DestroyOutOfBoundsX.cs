@@ -1,26 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DestroyOutOfBoundsX : MonoBehaviour
 {
-    private float leftLimit = 30;
-    private float bottomLimit = -5;
+    [Header("Thresholds")]
+    private float lowerLimit = -5.0f; // For Balls
+    private float leftLimit = -35.0f; // For Dogs
 
-
-    // Update is called once per frame
     void Update()
     {
-        // Destroy dogs if x position less than left limit
+        // LOGIC FOR BALLS (Checking Y axis)
+        if (transform.position.y < lowerLimit)
+        {
+            Debug.Log("Game Over! A ball hit the ground.");
+            Destroy(gameObject);
+        }
+
+        // LOGIC FOR DOGS (Checking X axis)
         if (transform.position.x < leftLimit)
         {
             Destroy(gameObject);
         }
-        // Destroy balls if y position is less than bottomLimit
-        if (transform.position.z < bottomLimit)
-        {
-            Destroy(gameObject);
-        }
+    }
 
+    // Trigger logic for when a Dog and Ball overlap
+    private void OnTriggerEnter(Collider other)
+    {
+        // If this object is a Ball and it hits a Dog...
+        if (gameObject.CompareTag("Ball") && other.CompareTag("Dog"))
+        {
+            Destroy(gameObject); // Destroy the ball
+            // Destroy(other.gameObject); // Optional: Uncomment to destroy dog too
+        }
     }
 }
